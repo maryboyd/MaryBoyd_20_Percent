@@ -1,0 +1,23 @@
+public class RunningLog{
+  /*
+   * What type of run was it?
+   * Tempo
+   * Intervals
+   * Jog
+   * Race
+   * Time Trial
+   * Hill Workout
+   * Distance
+   * 
+   * What was your total time?
+   * 
+   * What was your distance?
+   * 
+   * What was your time per mile?
+   * 
+   * Record workout ideas
+   * 
+   * What day was it?
+   * 
+   * Use Arrays
+}
