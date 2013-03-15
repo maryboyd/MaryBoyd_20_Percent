@@ -1,4 +1,10 @@
+import java.util.Scanner;
+import java.util.LinkedList;
+import java.io.*;
+
 public class RunningLog{
+  
+  public static Workout runs;
   /*
    * What type of run was it?
    * Tempo
@@ -8,6 +14,7 @@ public class RunningLog{
    * Time Trial
    * Hill Workout
    * Distance
+   * Combo
    * 
    * What was your total time?
    * 
@@ -19,5 +26,37 @@ public class RunningLog{
    * 
    * What day was it?
    * 
-   * Use Arrays
+   * What was the weather like?
+   * 
+   * ArrayLists can take different types
+   * 
+   * */
+  public static void main(String[] args) {
+      ProcessLog.process();
+      try{
+    BufferedWriter bw = new BufferedWriter(new FileWriter("RunningLog.csv"));
+    bw.newLine();
+    bw.write(runs.date + ", " + runs.distance + ", " + runs.weather + ", " + runs.temperature);
+    if(runs instanceof Intervals){
+      bw.write(", N/A, N/A, N/A, " + ((Intervals)runs).nIntervals + ", " + ((Intervals)runs).intervalDist + ", " + ((Intervals)runs).avgTime);
+    }
+    if(runs instanceof Tempo){
+      bw.write(", " + ((Tempo)runs).totalTime + ", " + ((Tempo)runs).perMileTime);
+    }
+        if(runs instanceof Race){
+      bw.write(", " + ((Race)runs).totalTime + ", " + ((Race)runs).perMileTime);
+    }
+    if(runs instanceof Jog){
+      bw.write(", " + ((Jog)runs).totalTime + ", N/A ," + ((Jog)runs).buddies);
+    }
+    if(runs instanceof DistanceRun){
+      bw.write(", " + ((DistanceRun)runs).totalTime);
+    }
+    bw.flush();
+}
+  
+  catch(IOException e){
+    System.out.println("Something is wrong.");
+  }
+}
 }

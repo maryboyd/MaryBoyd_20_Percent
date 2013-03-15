@@ -21,6 +21,11 @@ public abstract class Workout{
   }
   
   
+  public String toString(){
+  return "a run of " + getDistance() + " miles on " + date + ".2013.";
+  
+  }
+  
   public String weatherToString(){
     String weather = "The weather for my run on" + date + "was ";
     switch (getWeather()){

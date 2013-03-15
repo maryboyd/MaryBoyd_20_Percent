@@ -1,3 +1,4 @@
-public class Race extends Workouts{
-  
+public class Race extends Workout{
+    protected int totalTime;
+  protected int perMileTime;
 }

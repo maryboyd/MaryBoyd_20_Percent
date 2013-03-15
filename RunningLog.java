@@ -1,7 +1,10 @@
 import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.io.*;
 
 public class RunningLog{
+  
+  public static Workout runs;
   /*
    * What type of run was it?
    * Tempo
@@ -29,69 +32,48 @@ public class RunningLog{
    * 
    * */
   public static void main(String[] args) {
-    Scanner scanner = new Scanner( System.in );
-    System.out.println("Would you like to enter a new run? Yes or No?");
-    if(scanner.nextLine().equals("Yes")){
-      newRun();
-    }
-    else{}
+      ProcessLog.process();
+      writeRun();
   }
-  
-  public static Workout newRun(){
-    Scanner scanner = new Scanner( System.in );
-    System.out.println("Would you like to enter a new run? Yes or No?");
-    if(scanner.nextLine().equals("Yes")){
-      newRun();
-      System.out.print("What type of run did you do? Please enter one of the following: Tempo, Race, Jog, Intervals, or Distance. ");  
-      String type = scanner.nextLine(); 
-      Workout ab;
-      if((type.equals("Intervals"))){
-        ab = new Intervals();
-        questions(ab);
-      }
-      if(type.equals("Tempo")){
-        ab = new Tempo();
-        questions(ab);
-      }
-      if(type.equals("Race")){
-        ab = new Race();
-        questions(ab);
-      }
-      if(type.equals("Jog")){
-        ab = new Jog();
-        questions(ab);
-      }
-      else{
-        ab = new DistanceRun();
-        questions(ab);
-      }
-    }
-   // return ((Workout)ab);
-    Workout a = new Tempo();
-      return a;
-  }
-  
-  public static Workout questions(Workout a){
-     Scanner scanner = new Scanner( System.in );
-    if(!(a instanceof Intervals)){
-      System.out.print("What was your total distance? Decimals, not fractions please.");  
-      a.distance = scanner.nextDouble();  
-    }
-    else{
-      System.out.println("How many intervals did you run?");
-      ((Intervals)a).nIntervals = scanner.nextInt();
-      System.out.println("What distance was each of your intervals (in meters)");
-      ((Intervals)a).intervalDist = scanner.nextInt();
-      System.out.println("What was your average time per interval?");
-      ((Intervals)a).avgTime = scanner.nextDouble();
-    }
       
-    System.out.print("What was the temperature in degrees Farenheit?");  
-    a.temperature = scanner.nextInt();  
-    
-    System.out.print("What day was the run? Use the format 1.1 for January 1st or 1.2 for January 2nd.");  
-    a.date = scanner.nextDouble();  
-    
-    return a;
+      
+      public static void writeRun(){
+      try{
+          Scanner sc = new Scanner("RunningLog.csv");
+          LinkedList<Double> prev = new LinkedList();
+     while(sc.hasNextDouble()){
+    prev.add(sc.nextDouble());
+     }
+
+    BufferedWriter bw = new BufferedWriter(new FileWriter("RunningLog.csv"));
+    bw.newLine();
+        for(double x : prev){
+          bw.write("" + x);
+        }
+    bw.write(runs.date + ", " + runs.distance + ", " + runs.weather + ", " + runs.temperature);
+    if(runs instanceof Intervals){
+      bw.write(", N/A, N/A, N/A, " + ((Intervals)runs).nIntervals + ", " + ((Intervals)runs).intervalDist + ", " + ((Intervals)runs).avgTime);
+    }
+    if(runs instanceof Tempo){
+      bw.write(", " + ((Tempo)runs).totalTime + ", " + ((Tempo)runs).perMileTime);
+    }
+        if(runs instanceof Race){
+      bw.write(", " + ((Race)runs).totalTime + ", " + ((Race)runs).perMileTime);
+    }
+    if(runs instanceof Jog){
+      bw.write(", " + ((Jog)runs).totalTime + ", N/A ," + ((Jog)runs).buddies);
+    }
+    if(runs instanceof DistanceRun){
+      bw.write(", " + ((DistanceRun)runs).totalTime);
+    }
+    bw.newLine();
+    bw.flush();
+    bw.close();
+}
+  
+  catch(IOException e){
+    System.out.println("Something is wrong.");
   }
 }
+      
+  }

@@ -1,7 +1,7 @@
 public class Jog extends Workout{
   
   
-  protected int totalTime;
-  protected String[] buddies;
+  protected double totalTime;
+  protected String buddies;
   
 }
