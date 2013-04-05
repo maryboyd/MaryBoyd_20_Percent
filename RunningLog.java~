@@ -33,9 +33,23 @@ public class RunningLog{
    * */
   public static void main(String[] args) {
       ProcessLog.process();
+      writeRun();
+  }
+      
+      
+      public static void writeRun(){
       try{
+          Scanner sc = new Scanner("RunningLog.csv");
+          LinkedList<Double> prev = new LinkedList();
+     while(sc.hasNextDouble()){
+    prev.add(sc.nextDouble());
+     }
+
     BufferedWriter bw = new BufferedWriter(new FileWriter("RunningLog.csv"));
     bw.newLine();
+        for(double x : prev){
+          bw.write("" + x);
+        }
     bw.write(runs.date + ", " + runs.distance + ", " + runs.weather + ", " + runs.temperature);
     if(runs instanceof Intervals){
       bw.write(", N/A, N/A, N/A, " + ((Intervals)runs).nIntervals + ", " + ((Intervals)runs).intervalDist + ", " + ((Intervals)runs).avgTime);
@@ -52,11 +66,14 @@ public class RunningLog{
     if(runs instanceof DistanceRun){
       bw.write(", " + ((DistanceRun)runs).totalTime);
     }
+    bw.newLine();
     bw.flush();
+    bw.close();
 }
   
   catch(IOException e){
     System.out.println("Something is wrong.");
   }
 }
-}
+      
+  }

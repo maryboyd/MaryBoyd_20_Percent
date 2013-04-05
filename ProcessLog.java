@@ -1,5 +1,8 @@
-  import java.util.Scanner;
+import java.util.Scanner;
 import java.util.LinkedList;
+import java.awt.Container;
+import javax.swing.JFrame;
+import javax.swing.JButton;
 
 public class ProcessLog{
   /*
@@ -35,49 +38,50 @@ public class ProcessLog{
       newRun();
     }
     else{
-    System.out.println("Would you like to look through past runs? Yes or No");
-    if(scanner.nextLine().equals("Yes")){
-      oldRuns();
-      System.out.println("good");
-    }
+      System.out.println("Would you like to look through past runs? Yes or No");
+      if(scanner.nextLine().equals("Yes")){
+        oldRuns();
+        System.out.println("good");
+      }
       else{
         scanner.close();
         System.out.println("Closing RunningLog.");
       }
-  }
+    }
   }
   
   public static void newRun(){
     Scanner scanner = new Scanner( System.in );
-      System.out.print("What type of run did you do? Please enter one of the following: Tempo, Race, Jog, Intervals, or Distance. ");  
-      String type = scanner.nextLine(); 
-      Workout ab;
-      if((type.equals("Intervals"))){
-        ab = new Intervals();
-        questions(ab);
-      }
-      else if(type.equals("Tempo")){
-        ab = new Tempo();
-        
-        questions(ab);
-      }
-      else if(type.equals("Race")){
-        ab = new Race();
-        questions(ab);
-      }
-      else if(type.equals("Jog")){
-        ab = new Jog();
-        questions(ab);
-      }
-      else{
-        ab = new DistanceRun();
-        questions(ab);
-      }
-      RunningLog.runs = ab;
+    System.out.print("What type of run did you do? Please enter one of the following: Tempo, Race, Jog, Intervals, or Distance. ");  
+    String type = scanner.nextLine(); 
+    Workout ab;
+    if((type.equals("Intervals"))){
+      ab = new Intervals();
+      questions(ab);
+    }
+    else if(type.equals("Tempo")){
+      ab = new Tempo();
+      
+      questions(ab);
+    }
+    else if(type.equals("Race")){
+      ab = new Race();
+      questions(ab);
+    }
+    else if(type.equals("Jog")){
+      ab = new Jog();
+      questions(ab);
+    }
+    else{
+      ab = new DistanceRun();
+      questions(ab);
+    }
+    RunningLog.runs = ab;
   }
   
   public static void questions(Workout a){
-     Scanner scanner = new Scanner( System.in );
+    
+    Scanner scanner = new Scanner( System.in );
     if(!(a instanceof Intervals)){
       System.out.print("What was your total distance? Decimals, not fractions please.");  
       a.distance = scanner.nextDouble();  
@@ -101,16 +105,41 @@ public class ProcessLog{
     a.date = scanner.nextDouble();  
     System.out.println("Great! I have recorded " + a.toString() + " Do you want to enter another run? ");
     if(scanner.nextLine().equals("Yes")){
-       process();
-       }
-   else{
-     scanner.close();
-     System.out.println("Ok. You should run again tomorrow ;)");
-  }
-  
+      process();
+    }
+    else{
+      System.out.println("Ok. You should run again tomorrow ;)");
+    }
+    
   }
   
   public static void oldRuns(){
+    Scanner ask = new Scanner(System.in);
+    System.out.println("Would you like to see your total distance?");
+    if(ask.nextLine().equals("Yes")){
+    }
+    System.out.println("Would you like to find your fastest time for a given workout?");
+    if(ask.nextLine().equals("Yes")){
+        double matchdist = 0;
+      System.out.println("What distance is the workout you're looking for? Put 0 for Intervals.");
+      if(ask.nextInt() == 0){
+        System.out.println("What interval distance are you running? In meters please.");
+        int intDist = ask.nextInt();
+        System.out.println("How many intervals of" + intDist + "meters are you running?");
+        int nInt = ask.nextInt();
+        matchdist = (nInt*nDist)/1600;
+      }
+      else{
+        matchdist = ask.nextInt();
+      }
+      ask.close();
+        
+       System.out.println("Your fastest time for a distance of " + matchdist + "miles is " + val + "minutes");
+        
+    double totalMiles;
+    Scanner scan = new Scanner("fakelog.csv");
+    scan.nextLine();
+    System.out.println("Your total mileage to date: " + totalMiles);
     /* See fastest time for a specific distance or workout.
      * Have I run this workout before?
      * When was the last time I ran this workout?
