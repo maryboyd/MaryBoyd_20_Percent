@@ -108,13 +108,41 @@ public class ProcessLog{
       process();
     }
     else{
-      scanner.close();
       System.out.println("Ok. You should run again tomorrow ;)");
     }
     
   }
   
   public static void oldRuns(){
+    Scanner ask = new Scanner(System.in);
+    System.out.println("Would you like to see your total distance?");
+    if(ask.nextLine().equals("Yes")){
+    }
+    System.out.println("Would you like to find your fastest time for a given workout?");
+    if(ask.nextLine().equals("Yes")){
+        double matchdist = 0;
+      System.out.println("What distance is the workout you're looking for? Put 0 for Intervals.");
+      if(ask.nextInt() == 0){
+        System.out.println("What interval distance are you running? In meters please.");
+        int intDist = ask.nextInt();
+        System.out.println("How many intervals of" + intDist + "meters are you running?");
+        int nInt = ask.nextInt();
+        matchdist = (nInt*nDist)/1600;
+      }
+      else{
+        matchdist = ask.nextInt();
+      }
+      ask.close();
+      Scanner scan = new Scanner("fakelog.csv");
+      scan.nextLine();
+      scan.useDelimiter(",");
+      for(
+      LinkedList<double> vals = scan.nextLine();
+        
+       System.out.println("Your fastest time for a distance of " + matchdist + "miles is " + val + "minutes");
+        
+    double totalMiles;
+    System.out.println("Your total mileage to date: " + totalMiles);
     /* See fastest time for a specific distance or workout.
      * Have I run this workout before?
      * When was the last time I ran this workout?
@@ -124,4 +152,4 @@ public class ProcessLog{
      * */
   }
 }
-
+}

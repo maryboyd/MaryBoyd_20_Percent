@@ -42,6 +42,7 @@ public class ProcessLog{
       if(scanner.nextLine().equals("Yes")){
         oldRuns();
         System.out.println("good");
+        scanner.close();
       }
       else{
         scanner.close();
@@ -114,9 +115,13 @@ public class ProcessLog{
   }
   
   public static void oldRuns(){
+    Object[][] runs = analyzeLog();
     Scanner ask = new Scanner(System.in);
     System.out.println("Would you like to see your total distance?");
     if(ask.nextLine().equals("Yes")){
+      double totalMiles = calculateTotalMiles(runs);
+          System.out.println("Your total mileage to date: " + totalMiles);
+          return;
     }
     System.out.println("Would you like to find your fastest time for a given workout?");
     if(ask.nextLine().equals("Yes")){
@@ -127,19 +132,17 @@ public class ProcessLog{
         int intDist = ask.nextInt();
         System.out.println("How many intervals of" + intDist + "meters are you running?");
         int nInt = ask.nextInt();
-        matchdist = (nInt*nDist)/1600;
+        matchdist = (nInt*intDist)/1600;
       }
       else{
         matchdist = ask.nextInt();
       }
       ask.close();
+      
+      int val = 0;
         
        System.out.println("Your fastest time for a distance of " + matchdist + "miles is " + val + "minutes");
         
-    double totalMiles;
-    Scanner scan = new Scanner("fakelog.csv");
-    scan.nextLine();
-    System.out.println("Your total mileage to date: " + totalMiles);
     /* See fastest time for a specific distance or workout.
      * Have I run this workout before?
      * When was the last time I ran this workout?
@@ -149,4 +152,31 @@ public class ProcessLog{
      * */
   }
 }
-
+  
+  public static Object[][] analyzeLog(){
+    Scanner scan = new Scanner("fakelog.csv");
+      scan.nextLine();
+      scan.useDelimiter(",");
+      Object[][] data = new Object[31][9];
+      for(int row = 0; row < 31; row++){
+        for(int col = 0; col < 9; col++){
+          data[row][col] = scan.next();
+        }
+        scan.nextLine();
+      }
+      return data;
+  }
+  
+  public static double calculateTotalMiles(Object[][] data){
+        double totalMiles = 0;
+    for(int row = 1; row < 31; row++){
+      if(data[row][1] instanceof Double){
+      totalMiles += ((Double)(data[row][1]));
+      }
+      if(data[row][7] != null && data[row][8] != null){
+      totalMiles+= ((Double)(data[row][7])*(Double)(data[row][8])/1600.0);
+      }
+    }
+    return totalMiles;
+  }
+}
