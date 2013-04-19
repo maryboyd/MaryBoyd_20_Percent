@@ -111,6 +111,7 @@ public class ProcessLog{
     else{
       System.out.println("Ok. You should run again tomorrow ;)");
     }
+    RunningLog.writeRun();
     
   }
   
@@ -130,18 +131,18 @@ public class ProcessLog{
       if(ask.nextInt() == 0){
         System.out.println("What interval distance are you running? In meters please.");
         int intDist = ask.nextInt();
-        System.out.println("How many intervals of" + intDist + "meters are you running?");
+        System.out.println("How many intervals of " + intDist + " meters are you running?");
         int nInt = ask.nextInt();
-        matchdist = (nInt*intDist)/1600;
+        double val = bestINTERVALworkout(intDist, nInt, runs);
+        System.out.println("Your fastest average time for " + nInt + " intervals that are each " + intDist + " meters long is " + val + " seconds");
       }
       else{
         matchdist = ask.nextInt();
+        double val = bestWorkout(matchdist, runs);
+        System.out.println("Your fastest time for a distance of " + matchdist + " miles is " + val + " minutes");
       }
       ask.close();
-      
-      int val = 0;
-        
-       System.out.println("Your fastest time for a distance of " + matchdist + "miles is " + val + "minutes");
+
         
     /* See fastest time for a specific distance or workout.
      * Have I run this workout before?
@@ -160,12 +161,43 @@ public class ProcessLog{
       Object[][] data = new Object[31][9];
       for(int row = 0; row < 31; row++){
         for(int col = 0; col < 9; col++){
+          if(scan.hasNext()){
           data[row][col] = scan.next();
+          }
         }
-        scan.nextLine();
       }
       return data;
   }
+  
+  public static double bestWorkout(double matchdist, Object[][] data){
+    double fastestT = 99999999.9;
+    for(int row = 1; row<31; row++){
+      if(data[row][1] instanceof Double && data[row][4] instanceof Double){
+        if((Double)(data[row][1]) == matchdist){
+        if((Double)(data[row][4]) < fastestT){
+          fastestT = (Double)(data[row][4]);
+        }
+      }
+    }
+    } 
+    return fastestT;
+  }
+
+  public static double bestINTERVALworkout(int intDist, int nInts, Object[][] data){
+    double fastestAvgT =  400000000.1;
+    for(int row = 1; row < 31; row++){
+      if(data[row][7] instanceof Integer && data[row][8] instanceof Integer && data[row][9] instanceof Integer){
+      if((Integer)(data[row][7]) == nInts && (Integer)(data[row][8]) == intDist){
+        if((Double)(data[row][9]) < fastestAvgT){
+          fastestAvgT = (Double)(data[row][9]);
+        }
+      }
+    }
+    }
+      return fastestAvgT;
+    }
+  
+  
   
   public static double calculateTotalMiles(Object[][] data){
         double totalMiles = 0;

@@ -33,7 +33,6 @@ public class RunningLog{
    * */
   public static void main(String[] args) {
       ProcessLog.process();
-      writeRun();
   }
       
       

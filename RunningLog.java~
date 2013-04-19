@@ -52,7 +52,7 @@ public class RunningLog{
         }
     bw.write(runs.date + ", " + runs.distance + ", " + runs.weather + ", " + runs.temperature);
     if(runs instanceof Intervals){
-      bw.write(", N/A, N/A, N/A, " + ((Intervals)runs).nIntervals + ", " + ((Intervals)runs).intervalDist + ", " + ((Intervals)runs).avgTime);
+      bw.write(", " + (((Intervals)runs).nIntervals*((Intervals)runs).intervalDist/1600) + ", N/A, N/A, " + ((Intervals)runs).nIntervals + ", " + ((Intervals)runs).intervalDist + ", " + ((Intervals)runs).avgTime);
     }
     if(runs instanceof Tempo){
       bw.write(", " + ((Tempo)runs).totalTime + ", " + ((Tempo)runs).perMileTime);
